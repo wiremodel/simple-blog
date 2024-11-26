@@ -10,10 +10,12 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Livewire;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Split;
+use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -51,53 +53,78 @@ class PostResource extends Resource
         return $form
             ->columns(1)
             ->schema([
-                Split::make([
-                    Section::make([
-
-                        TextInput::make('title')
-                            ->required()
-                            ->live(onBlur: true)
-                            ->afterStateUpdated(function (Get $get, Set $set, ?string $state, Page $livewire) {
-                                if (blank($get('slug'))) {
-                                    $set('slug', str($state)->slug());
-                                    $livewire->validateOnly('data.slug');
-                                }
-                            }),
-
-                        TextInput::make('slug')
-                            ->required()
-                            ->unique(column: 'slug', ignoreRecord: true)
-                            ->live(debounce: 500)
-                            ->afterStateUpdated(function (Page $livewire, ?string $state, TextInput $component) {
-                                $component->state(str($state)->slug());
-                                $livewire->validateOnly($component->getStatePath());
-                            }),
-
-                        RichEditor::make('content')
-                            ->columnSpanFull(),
-
-                        TagsInput::make('tags'),
-                    ]),
-
-                    Section::make([
-                        Select::make('user_id')
-                            ->relationship('user', 'name')
-                            ->required()
-                            ->searchable()
-                            ->preload()
-                            ->label('Author'),
-
-                        Fieldset::make('Status')
+                Tabs::make()
+                    ->tabs([
+                        Tabs\Tab::make('Post Details')
+                            ->icon('heroicon-o-document-text')
                             ->schema([
-                                Toggle::make('published'),
-                                DateTimePicker::make('published_at'),
-                            ])->columns(1),
+                                Split::make([
+                                    Section::make([
 
-                        FileUpload::make('image')
-                            ->image(),
+                                        TextInput::make('title')
+                                            ->required()
+                                            ->live(onBlur: true)
+                                            ->afterStateUpdated(function (Get $get, Set $set, ?string $state, Page $livewire) {
+                                                if (blank($get('slug'))) {
+                                                    $set('slug', str($state)->slug());
+                                                    $livewire->validateOnly('data.slug');
+                                                }
+                                            }),
 
-                    ])->grow(false),
-                ])->from('md'),
+                                        TextInput::make('slug')
+                                            ->required()
+                                            ->unique(column: 'slug', ignoreRecord: true)
+                                            ->live(debounce: 500)
+                                            ->afterStateUpdated(function (Page $livewire, ?string $state, TextInput $component) {
+                                                $component->state(str($state)->slug());
+                                                $livewire->validateOnly($component->getStatePath());
+                                            }),
+
+                                        RichEditor::make('content')
+                                            ->columnSpanFull(),
+
+                                        TagsInput::make('tags'),
+                                    ]),
+
+                                    Section::make([
+                                        Select::make('user_id')
+                                            ->relationship('user', 'name')
+                                            ->required()
+                                            ->searchable()
+                                            ->preload()
+                                            ->label('Author'),
+
+                                        Fieldset::make('Status')
+                                            ->schema([
+                                                Toggle::make('published'),
+                                                DateTimePicker::make('published_at'),
+                                            ])->columns(1),
+
+                                        FileUpload::make('image')
+                                            ->image(),
+
+                                    ])->grow(false),
+                                ])->from('md'),
+                            ]),
+                        Tabs\Tab::make('Categories')
+                            ->visibleOn('edit')
+                            ->icon('heroicon-o-tag')
+                            ->schema([
+                                Livewire::make(CategoriesRelationManager::class, fn (Post $record, Pages\EditPost $livewire): array => [
+                                    'ownerRecord' => $record,
+                                    'pageClass' => $livewire::class,
+                                ]),
+                            ]),
+                        Tabs\Tab::make('Comments')
+                            ->visibleOn('edit')
+                            ->icon('heroicon-o-chat-bubble-left')
+                            ->schema([
+                                Livewire::make(CommentsRelationManager::class, fn (Post $record, Pages\EditPost $livewire): array => [
+                                    'ownerRecord' => $record,
+                                    'pageClass' => $livewire::class,
+                                ]),
+                            ]),
+                    ]),
             ]);
     }
 
@@ -106,44 +133,70 @@ class PostResource extends Resource
         return $infolist
             ->columns(1)
             ->schema([
-                \Filament\Infolists\Components\Split::make([
-                    \Filament\Infolists\Components\Section::make()
-                        ->schema([
-                            TextEntry::make('title')
-                                ->weight('bold')
-                                ->hintAction(
-                                    Action::make('open')
-                                        ->icon('heroicon-o-arrow-top-right-on-square')
-                                ),
-                            TextEntry::make('slug')
-                                ->color('primary'),
+                \Filament\Infolists\Components\Tabs::make()
+                    ->tabs([
+                        \Filament\Infolists\Components\Tabs\Tab::make('Post Details')
+                            ->icon('heroicon-o-document-text')
+                            ->schema([
+                                \Filament\Infolists\Components\Split::make([
+                                    \Filament\Infolists\Components\Section::make()
+                                        ->schema([
+                                            TextEntry::make('title')
+                                                ->weight('bold')
+                                                ->hintAction(
+                                                    Action::make('open')
+                                                        ->icon('heroicon-o-arrow-top-right-on-square')
+                                                ),
+                                            TextEntry::make('slug')
+                                                ->color('primary'),
 
-                            TextEntry::make('content')
-                                ->alignJustify(),
+                                            TextEntry::make('content')
+                                                ->alignJustify(),
 
-                            TextEntry::make('categories.name')
-                                ->badge(),
+                                            TextEntry::make('categories.name')
+                                                ->badge(),
 
-                            TextEntry::make('tags')
-                                ->badge(),
-                        ]),
-                    \Filament\Infolists\Components\Section::make()
-                        ->schema([
-                            TextEntry::make('user.name')
-                                ->label('Author'),
+                                            TextEntry::make('tags')
+                                                ->badge(),
+                                        ]),
+                                    \Filament\Infolists\Components\Section::make()
+                                        ->schema([
+                                            TextEntry::make('user.name')
+                                                ->label('Author'),
 
-                            IconEntry::make('published')
-                                ->boolean(),
+                                            IconEntry::make('published')
+                                                ->boolean(),
 
-                            TextEntry::make('published_at')
-                                ->since(),
+                                            TextEntry::make('published_at')
+                                                ->since(),
 
-                            ImageEntry::make('image')
-                                ->width(300),
-                        ])
-                        ->grow(false)
-                        ->extraAttributes(['style' => 'min-width:300px']),
-                ])->from('md'),
+                                            ImageEntry::make('image')
+                                                ->width(300),
+                                        ])
+                                        ->grow(false)
+                                        ->extraAttributes(['style' => 'min-width:300px']),
+                                ])->from('md'),
+                            ]),
+
+                        \Filament\Infolists\Components\Tabs\Tab::make('Categories')
+                            ->icon('heroicon-o-tag')
+                            ->schema([
+                                \Filament\Infolists\Components\Livewire::make(CategoriesRelationManager::class, fn (Post $record, Pages\ViewPost $livewire): array => [
+                                    'ownerRecord' => $record,
+                                    'pageClass' => $livewire::class,
+                                ]),
+                            ]),
+
+                        \Filament\Infolists\Components\Tabs\Tab::make('Comments')
+                            ->icon('heroicon-o-chat-bubble-left')
+                            ->schema([
+                                \Filament\Infolists\Components\Livewire::make(CommentsRelationManager::class, fn (Post $record, Pages\ViewPost $livewire): array => [
+                                    'ownerRecord' => $record,
+                                    'pageClass' => $livewire::class,
+                                ]),
+                            ]),
+                    ]),
+
             ]);
     }
 
@@ -223,8 +276,8 @@ class PostResource extends Resource
     public static function getRelations(): array
     {
         return [
-            CategoriesRelationManager::class,
-            CommentsRelationManager::class,
+            //CategoriesRelationManager::class,
+            //CommentsRelationManager::class,
         ];
     }
 

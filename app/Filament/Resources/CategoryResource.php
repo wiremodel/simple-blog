@@ -160,7 +160,8 @@ class CategoryResource extends Resource
                                 fn (Builder $query, $date): Builder => $query->whereDate('published_at', '<=', $date),
                             );
                     }),
-            ])
+            ],
+                layout: fn ($livewire) => str($livewire->getName())->contains('categories-relation-manager') ? Tables\Enums\FiltersLayout::Hidden : null)
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),

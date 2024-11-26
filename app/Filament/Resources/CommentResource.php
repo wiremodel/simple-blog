@@ -109,7 +109,9 @@ class CommentResource extends Resource
                             );
                     }),
 
-            ])
+            ],
+                layout: fn ($livewire) => str($livewire->getName())->contains('comments-relation-manager') ? Tables\Enums\FiltersLayout::Hidden : null
+            )
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\DeleteAction::make(),
