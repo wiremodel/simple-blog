@@ -26,8 +26,8 @@ class CommentFactory extends Factory
             'content' => fake()->paragraphs(3, true),
             'published' => fake()->boolean(),
             'published_at' => fake()->dateTimeThisMonth(),
-            'post_id' => Post::factory(),
-            'user_id' => User::factory(),
+            'post_id' => rand(1, Post::count()),
+            'user_id' => rand(1, User::count()),
         ];
     }
 }

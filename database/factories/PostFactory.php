@@ -29,9 +29,9 @@ class PostFactory extends Factory
             'content' => fake()->paragraphs(3, true),
             'image' => fake()->randomElement(['100.jpg', '104.jpg', '106.jpg', '110.jpg', '120.jpg']),
             'tags' => fake()->randomElements(['tailwindcss', 'alpinejs', 'laravel', 'livewire', 'php'], 2),
-            'published' => fake()->boolean(),
+            'published' => true,
             'published_at' => fake()->dateTimeThisMonth(),
-            'user_id' => User::factory(),
+            'user_id' => rand(1, User::count()),
         ];
     }
 }

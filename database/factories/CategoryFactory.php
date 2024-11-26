@@ -27,7 +27,7 @@ class CategoryFactory extends Factory
             'slug' => $slug,
             'content' => fake()->paragraphs(3, true),
             'image' => fake()->randomElement(['100.jpg', '104.jpg', '106.jpg', '110.jpg', '120.jpg']),
-            'published' => fake()->boolean(),
+            'published' => true,
             'published_at' => fake()->dateTimeThisMonth(),
         ];
     }
