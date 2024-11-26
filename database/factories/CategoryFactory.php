@@ -21,6 +21,7 @@ class CategoryFactory extends Factory
     {
         $name = fake()->sentence(4);
         $slug = str($name)->slug();
+        $date = fake()->dateTimeThisMonth();
 
         return [
             'name' => $name,
@@ -28,7 +29,9 @@ class CategoryFactory extends Factory
             'content' => fake()->paragraphs(3, true),
             'image' => fake()->randomElement(['100.jpg', '104.jpg', '106.jpg', '110.jpg', '120.jpg']),
             'published' => true,
-            'published_at' => fake()->dateTimeThisMonth(),
+            'published_at' => $date,
+            'created_at' => $date,
+            'updated_at' => $date,
         ];
     }
 }
