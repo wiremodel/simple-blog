@@ -4,15 +4,15 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
 use App\Models\User;
-use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
+use Filament\Infolists\Components\IconEntry;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
-use Filament\Tables\Actions\BulkActionGroup;
-use Filament\Tables\Actions\DeleteBulkAction;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Actions\ViewAction;
+use Filament\Tables;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Validation\Rules\Password;
@@ -30,59 +30,74 @@ class UserResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->columns(null)
             ->schema([
-                Tabs::make()
-                    ->columns(2)
-                    ->tabs([
-                        Tabs\Tab::make('User Information')
-                            ->icon('heroicon-o-user')
-                            ->schema([
-                                TextInput::make('name')
-                                    ->required(),
+                TextInput::make('name')
+                    ->required(),
 
-                                TextInput::make('email')
-                                    ->email()
-                                    ->required(),
+                TextInput::make('email')
+                    ->email()
+                    ->required(),
 
-                                TextInput::make('password')
-                                    ->password()
-                                    ->revealable(filament()->arePasswordsRevealable())
-                                    ->rule(Password::default())
-                                    ->autocomplete(false)
-                                    ->dehydrated(fn ($state): bool => filled($state))
-                                    ->live(debounce: 500)
-                                    ->same('passwordConfirmation'),
+                TextInput::make('password')
+                    ->password()
+                    ->revealable(filament()->arePasswordsRevealable())
+                    ->rule(Password::default())
+                    ->autocomplete(false)
+                    ->dehydrated(fn ($state): bool => filled($state))
+                    ->live(debounce: 500)
+                    ->same('passwordConfirmation'),
 
-                                TextInput::make('passwordConfirmation')
-                                    ->password()
-                                    ->revealable(filament()->arePasswordsRevealable())
-                                    ->required()
-                                    ->visible(fn (Get $get): bool => filled($get('password')))
-                                    ->dehydrated(false),
-                            ]),
-                    ]),
+                TextInput::make('passwordConfirmation')
+                    ->password()
+                    ->revealable(filament()->arePasswordsRevealable())
+                    ->required()
+                    ->visible(fn (Get $get): bool => filled($get('password')))
+                    ->dehydrated(false),
             ]);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist->schema([
+            TextEntry::make('name')
+                ->label('Name'),
+
+            TextEntry::make('email')
+                ->label('Email'),
+
+            TextEntry::make('email_verified_at')
+                ->dateTime('d/m/Y H:i'),
+
+            IconEntry::make('author')
+                ->boolean()
+                ->state(fn (User $record): bool => $record->posts()->exists()),
+        ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-
                 TextColumn::make('name')
                     ->weight('bold')
-                    ->searchable()
-                    ->sortable()
-                    ->color('primary'),
-
-                TextColumn::make('email')
-                    ->sortable()
                     ->searchable(),
 
-                TextColumn::make('created_at')
-                    ->dateTime('d/m/y H:i')
+                TextColumn::make('email')
+                    ->color('primary')
+                    ->searchable(),
+
+                IconColumn::make('author')
+                    ->boolean()
+                    ->state(fn (User $record): bool => $record->posts()->exists()),
+
+                TextColumn::make('email_verified_at')
+                    ->dateTime('d/m/Y H:i')
                     ->sortable(),
+
+                TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('updated_at')
                     ->dateTime()
@@ -93,30 +108,21 @@ class UserResource extends Resource
                 //
             ])
             ->actions([
-                ViewAction::make(),
-                EditAction::make(),
+                Tables\Actions\ViewAction::make(),
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUsers::route('/'),
-            'create' => Pages\CreateUser::route('/create'),
-            'view' => Pages\ViewUser::route('/{record}'),
-            'edit' => Pages\EditUser::route('/{record}/edit'),
+            'index' => Pages\ManageUsers::route('/'),
         ];
     }
 }

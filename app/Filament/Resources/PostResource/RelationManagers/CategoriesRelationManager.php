@@ -4,10 +4,9 @@ namespace App\Filament\Resources\PostResource\RelationManagers;
 
 use App\Filament\Resources\CategoryResource;
 use Filament\Forms\Form;
+use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 
 class CategoriesRelationManager extends RelationManager
@@ -19,42 +18,19 @@ class CategoriesRelationManager extends RelationManager
         return CategoryResource::form($form);
     }
 
+    public function infolist(Infolist $infolist): Infolist
+    {
+        return CategoryResource::infolist($infolist);
+    }
+
     public function table(Table $table): Table
     {
-        return $table
+        return CategoryResource::table($table)
             ->recordTitleAttribute('name')
-            ->columns([
-                TextColumn::make('name'),
-
-                ToggleColumn::make('published'),
-
-                TextColumn::make('published_at')
-                    ->since()
-                    ->sortable(),
-
-                TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable(),
-
-                TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-            ])
-            ->filters([
-                //
-            ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                Tables\Actions\CreateAction::make()
+                    ->iconButton()
+                    ->icon('heroicon-o-plus'),
             ]);
     }
 }

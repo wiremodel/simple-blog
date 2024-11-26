@@ -4,7 +4,9 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PostResource\Pages;
 use App\Filament\Resources\PostResource\RelationManagers\CategoriesRelationManager;
+use App\Filament\Resources\PostResource\RelationManagers\CommentsRelationManager;
 use App\Models\Post;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\FileUpload;
@@ -26,9 +28,13 @@ use Filament\Infolists\Infolist;
 use Filament\Pages\Page;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class PostResource extends Resource
 {
@@ -80,6 +86,7 @@ class PostResource extends Resource
                             ->searchable()
                             ->preload()
                             ->label('Author'),
+
                         Fieldset::make('Status')
                             ->schema([
                                 Toggle::make('published'),
@@ -90,7 +97,7 @@ class PostResource extends Resource
                             ->image(),
 
                     ])->grow(false),
-                ]),
+                ])->from('md'),
             ]);
     }
 
@@ -124,16 +131,19 @@ class PostResource extends Resource
                         ->schema([
                             TextEntry::make('user.name')
                                 ->label('Author'),
+
                             IconEntry::make('published')
                                 ->boolean(),
+
                             TextEntry::make('published_at')
                                 ->since(),
+
                             ImageEntry::make('image')
                                 ->width(300),
                         ])
                         ->grow(false)
                         ->extraAttributes(['style' => 'min-width:300px']),
-                ]),
+                ])->from('md'),
             ]);
     }
 
@@ -141,8 +151,9 @@ class PostResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('image')
+                ImageColumn::make('image')
                     ->extraImgAttributes(['class' => 'rounded-md']),
+
                 TextColumn::make('title')
                     ->searchable()
                     ->weight('bold')
@@ -169,7 +180,33 @@ class PostResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('categories')
+                    ->relationship('categories', 'name')
+                    ->preload()
+                    ->multiple(),
+
+                SelectFilter::make('user_id')
+                    ->label('Author')
+                    ->relationship('user', 'name')
+                    ->preload()
+                    ->multiple(),
+
+                Filter::make('published_at')
+                    ->form([
+                        DatePicker::make('published_from'),
+                        DatePicker::make('published_until'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['published_from'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('published_at', '>=', $date),
+                            )
+                            ->when(
+                                $data['published_until'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('published_at', '<=', $date),
+                            );
+                    }),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
@@ -187,6 +224,7 @@ class PostResource extends Resource
     {
         return [
             CategoriesRelationManager::class,
+            CommentsRelationManager::class,
         ];
     }
 
