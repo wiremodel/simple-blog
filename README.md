@@ -2,7 +2,7 @@
 A simple blog example built with Laravel and Filament.
 
 ### Installation
-Clone the repo locally and use the `fi-v3` branch.
+Clone the repo locally and use the `relation-manager-form-tabs` branch.
 
 Install PHP dependencies:
 
