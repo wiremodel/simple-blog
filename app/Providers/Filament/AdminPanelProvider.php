@@ -49,7 +49,7 @@ class AdminPanelProvider extends PanelProvider
 
             })
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Cyan,
             ])
             ->pages([
                 Pages\Dashboard::class,
