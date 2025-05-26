@@ -24,6 +24,7 @@ class UserFactory extends Factory
     public function definition(): array
     {
         $date = fake()->dateTimeThisMonth();
+
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
