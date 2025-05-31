@@ -12,6 +12,19 @@ class ListPosts extends ListRecords
 {
     protected static string $resource = PostResource::class;
 
+    public function mount(): void
+    {
+        parent::mount();
+
+        $this->activeTab = session('postActiveTab', $this->getDefaultActiveTab());
+    }
+
+    public function updatedActiveTab(): void
+    {
+        parent::updatedActiveTab();
+        session(['postActiveTab' => $this->activeTab]);
+    }
+
     public function getTabs(): array
     {
         return [
