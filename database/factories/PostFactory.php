@@ -2,9 +2,10 @@
 
 namespace Database\Factories;
 
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 use App\Models\Post;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PostFactory extends Factory
 {
@@ -20,20 +21,16 @@ class PostFactory extends Factory
      */
     public function definition(): array
     {
-        $title = fake()->sentence(4);
-        $slug = str($title)->slug();
-        $date = fake()->dateTimeThisMonth();
         return [
-            'title' => $title,
-            'slug' => $slug,
+            'title' => fake()->sentence(4),
+            'slug' => fake()->slug(),
+            'excerpt' => fake()->word(),
             'content' => fake()->paragraphs(3, true),
-            'image' => fake()->randomElement(['100.jpg', '104.jpg', '106.jpg', '110.jpg', '120.jpg']),
-            'tags' => fake()->randomElements(['tailwindcss', 'alpinejs', 'laravel', 'livewire', 'php'], 2),
-            'published' => true,
-            'user_id' => rand(1, User::count()),
-            'published_at' => $date,
-            'created_at' => $date,
-            'updated_at' => $date,
+            'image' => fake()->word(),
+            'tags' => '{}',
+            'published' => fake()->boolean(),
+            'published_at' => fake()->dateTime(),
+            'user_id' => User::factory(),
         ];
     }
 }

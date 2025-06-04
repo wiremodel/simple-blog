@@ -20,6 +20,7 @@ class Post extends Model
     protected $fillable = [
         'title',
         'slug',
+        'excerpt',
         'content',
         'image',
         'tags',
@@ -29,17 +30,20 @@ class Post extends Model
     ];
 
     /**
-     * The attributes that should be cast to native types.
+     * Get the attributes that should be cast.
      *
-     * @var array
+     * @return array<string, string>
      */
-    protected $casts = [
-        'id' => 'integer',
-        'tags' => 'array',
-        'published' => 'boolean',
-        'published_at' => 'datetime',
-        'user_id' => 'integer',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'id' => 'integer',
+            'tags' => 'array',
+            'published' => 'boolean',
+            'published_at' => 'datetime',
+            'user_id' => 'integer',
+        ];
+    }
 
     public function categories(): BelongsToMany
     {

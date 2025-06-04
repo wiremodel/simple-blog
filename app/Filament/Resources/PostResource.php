@@ -15,6 +15,7 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Split;
 use Filament\Forms\Components\TagsInput;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
@@ -72,6 +73,17 @@ class PostResource extends Resource
                                 $component->state(str($state)->slug());
                                 $livewire->validateOnly($component->getStatePath());
                             }),
+
+                        Textarea::make('excerpt')
+                            ->fieldWrapperView('filament.forms.textarea-counter')
+                            ->extraAlpineAttributes([
+                                'x-init' => '
+                                    length = state?.length;
+                                    $watch(\'state\', value => length = value?.length)
+                                ', ])
+                            ->required()
+                            ->rows(5)
+                            ->columnSpanFull(),
 
                         RichEditor::make('content')
                             ->columnSpanFull(),

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('slug');
+            $table->string('excerpt')->nullable();
             $table->longText('content')->nullable();
             $table->string('image')->nullable();
             $table->json('tags')->nullable();

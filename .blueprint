@@ -2,10 +2,10 @@ created:
     - database/factories/PostFactory.php
     - database/factories/CategoryFactory.php
     - database/factories/CommentFactory.php
-    - database/migrations/2024_11_21_212523_create_posts_table.php
-    - database/migrations/2024_11_21_212524_create_categories_table.php
-    - database/migrations/2024_11_21_212525_create_comments_table.php
-    - database/migrations/2024_11_21_212526_create_category_post_table.php
+    - database/migrations/2025_06_04_183846_create_posts_table.php
+    - database/migrations/2025_06_04_183847_create_categories_table.php
+    - database/migrations/2025_06_04_183848_create_comments_table.php
+    - database/migrations/2025_06_04_183849_create_category_post_table.php
     - app/Models/Post.php
     - app/Models/Category.php
     - app/Models/Comment.php
@@ -14,6 +14,7 @@ created:
     - database/seeders/CategorySeeder.php
     - database/seeders/CommentSeeder.php
 models:
-    Post: { title: string, slug: string, content: 'longtext nullable', image: 'string nullable', tags: 'json nullable', published: 'boolean default:false', published_at: 'datetime nullable', relationships: { belongsToMany: Category, belongsTo: User, hasMany: Comment } }
+    User: { name: string, email: string, email_verified_at: 'datetime nullable', password: string, remember_token: 'string nullable' }
+    Post: { title: string, slug: string, excerpt: 'string nullable', content: 'longtext nullable', image: 'string nullable', tags: 'json nullable', published: 'boolean default:false', published_at: 'datetime nullable', relationships: { belongsToMany: Category, belongsTo: User, hasMany: Comment } }
     Category: { name: string, slug: string, content: 'longtext nullable', image: 'string nullable', published: 'boolean default:false', published_at: 'datetime nullable', relationships: { belongsToMany: Post } }
     Comment: { title: string, content: 'longtext nullable', published: 'boolean default:false', published_at: datetime, relationships: { belongsTo: 'Post, User' } }
