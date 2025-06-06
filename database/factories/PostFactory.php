@@ -23,6 +23,7 @@ class PostFactory extends Factory
         $title = fake()->sentence(4);
         $slug = str($title)->slug();
         $date = fake()->dateTimeThisMonth();
+
         return [
             'title' => $title,
             'slug' => $slug,

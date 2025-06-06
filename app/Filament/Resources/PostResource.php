@@ -27,10 +27,12 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Pages\Page;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
+use Filament\Tables\Columns\ViewColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -152,12 +154,30 @@ class PostResource extends Resource
         return $table
             ->columns([
                 ImageColumn::make('image')
+
+                    ->defaultImageUrl('https://images.unsplash.com/photo-1645724297667-1f88bb705e8d?q=80&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&w=400&h=400')
                     ->extraImgAttributes(['class' => 'rounded-md']),
 
-                TextColumn::make('title')
-                    ->searchable()
-                    ->weight('bold')
-                    ->color('primary'),
+                ViewColumn::make('title')
+                    ->view('components.tables.columns.post-title')
+                    ->action(
+                        Tables\Actions\Action::make('quickEdit')
+                            ->modalWidth(MaxWidth::Small)
+                            ->modalSubmitActionLabel('Save Changes')
+                            ->fillForm(fn (Post $record) => [
+                                'title' => $record->title,
+                            ])
+                            ->form([
+                                TextInput::make('title')
+                                    ->required(),
+                            ])
+                            ->action(function (Post $record, array $data) {
+                                $record->update([
+                                    'title' => $data['title'],
+                                ]);
+                            })
+                    )
+                    ->searchable(),
 
                 TextColumn::make('user.name')
                     ->sortable()
