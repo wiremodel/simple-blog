@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\PostResource\Pages;
 
 use App\Filament\Resources\PostResource;
+use Filament\Actions\Action;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreatePost extends CreateRecord
@@ -14,5 +15,16 @@ class CreatePost extends CreateRecord
         $data['user_id'] = auth()->id();
 
         return $data;
+    }
+
+    protected function getCreateFormAction(): Action
+    {
+        return parent::getCreateFormAction()
+            ->submit(null)
+            ->requiresConfirmation()
+            ->action(function () {
+                $this->closeActionModal();
+                $this->create();
+            });
     }
 }
