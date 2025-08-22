@@ -3,9 +3,11 @@ models:
     title: string
     slug: string
     content: longtext nullable
-    image: string nullable
+    thumbnail: string nullable
+    featured_image: string nullable
+    gallery: json nullable
     tags: json nullable
-    published: boolean default:false
+    status: enum('draft', 'published', 'archived') default:'draft'
     published_at: datetime nullable
     relationships:
       belongsToMany: Category
@@ -27,4 +29,3 @@ models:
     published_at: datetime
     relationships:
       belongsTo: Post, User
-seeders: User, Post, Category, Comment

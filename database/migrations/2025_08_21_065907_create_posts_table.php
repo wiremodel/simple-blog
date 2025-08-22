@@ -16,9 +16,11 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug');
             $table->longText('content')->nullable();
-            $table->string('image')->nullable();
+            $table->string('thumbnail')->nullable();
+            $table->string('featured_image')->nullable();
+            $table->json('gallery')->nullable();
             $table->json('tags')->nullable();
-            $table->boolean('published')->default(false);
+            $table->string('status')->default('draft');
             $table->dateTime('published_at')->nullable();
             $table->foreignId('user_id');
             $table->timestamps();

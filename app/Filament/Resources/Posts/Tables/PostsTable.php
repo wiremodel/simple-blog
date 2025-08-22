@@ -2,12 +2,13 @@
 
 namespace App\Filament\Resources\Posts\Tables;
 
+use App\Enums\PostStatus;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -19,7 +20,7 @@ class PostsTable
     {
         return $table
             ->columns([
-                ImageColumn::make('image')
+                ImageColumn::make('thumbnail')
                     ->disk('public')
                     ->imageSize('40px')
                     ->placeholder('#'),
@@ -28,13 +29,16 @@ class PostsTable
                 TextColumn::make('user.name')
                     ->label('Author')
                     ->sortable(),
-                ToggleColumn::make('published'),
+                SelectColumn::make('status')
+                ->options(PostStatus::class),
                 TextColumn::make('published_at')
                     ->since()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
                     ->since()
-                    ->sortable(),
+                    ->sortable()
+                ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()

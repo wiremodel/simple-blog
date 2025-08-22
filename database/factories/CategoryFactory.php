@@ -19,19 +19,13 @@ class CategoryFactory extends Factory
      */
     public function definition(): array
     {
-        $name = fake()->sentence(4);
-        $slug = str($name)->slug();
-        $date = fake()->dateTimeThisMonth();
-
         return [
-            'name' => $name,
-            'slug' => $slug,
+            'name' => fake()->name(),
+            'slug' => fake()->slug(),
             'content' => fake()->paragraphs(3, true),
-            'image' => fake()->randomElement(['100.jpg', '104.jpg', '106.jpg', '110.jpg', '120.jpg']),
-            'published' => true,
-            'published_at' => $date,
-            'created_at' => $date,
-            'updated_at' => $date,
+            'image' => fake()->word(),
+            'published' => fake()->boolean(),
+            'published_at' => fake()->dateTime(),
         ];
     }
 }

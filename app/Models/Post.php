@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\PostStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -21,25 +22,31 @@ class Post extends Model
         'title',
         'slug',
         'content',
-        'image',
+        'thumbnail',
+        'featured_image',
+        'gallery',
         'tags',
-        'published',
+        'status',
         'published_at',
         'user_id',
     ];
 
     /**
-     * The attributes that should be cast to native types.
+     * Get the attributes that should be cast.
      *
-     * @var array
+     * @return array<string, string>
      */
-    protected $casts = [
-        'id' => 'integer',
-        'tags' => 'array',
-        'published' => 'boolean',
-        'published_at' => 'datetime',
-        'user_id' => 'integer',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'id' => 'integer',
+            'gallery' => 'array',
+            'tags' => 'array',
+            'published_at' => 'datetime',
+            'user_id' => 'integer',
+            'status' => PostStatus::class,
+        ];
+    }
 
     public function categories(): BelongsToMany
     {

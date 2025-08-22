@@ -21,17 +21,13 @@ class CommentFactory extends Factory
      */
     public function definition(): array
     {
-        $date = fake()->dateTimeThisMonth();
-
         return [
             'title' => fake()->sentence(4),
             'content' => fake()->paragraphs(3, true),
             'published' => fake()->boolean(),
-            'post_id' => rand(1, Post::count()),
-            'user_id' => rand(1, User::count()),
-            'published_at' => $date,
-            'created_at' => $date,
-            'updated_at' => $date,
+            'published_at' => fake()->dateTime(),
+            'post_id' => Post::factory(),
+            'user_id' => User::factory(),
         ];
     }
 }
