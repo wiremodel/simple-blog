@@ -10,7 +10,6 @@ use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
@@ -30,7 +29,7 @@ class PostsTable
                     ->label('Author')
                     ->sortable(),
                 SelectColumn::make('status')
-                ->options(PostStatus::class),
+                    ->options(PostStatus::class),
                 TextColumn::make('published_at')
                     ->since()
                     ->sortable()
@@ -38,7 +37,7 @@ class PostsTable
                 TextColumn::make('created_at')
                     ->since()
                     ->sortable()
-                ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()

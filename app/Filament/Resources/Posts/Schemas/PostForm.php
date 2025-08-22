@@ -3,7 +3,9 @@
 namespace App\Filament\Resources\Posts\Schemas;
 
 use App\Enums\PostStatus;
+use App\Filament\Resources\Posts\Pages\EditPost;
 use App\Filament\Resources\Posts\RelationManagers\CategoriesRelationManager;
+use App\Filament\Resources\Posts\RelationManagers\CommentsRelationManager;
 use App\Models\Post;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\DateTimePicker;
@@ -98,15 +100,22 @@ class PostForm
                                     ->visibleOn(Operation::Create),
                                 Livewire::make(CategoriesRelationManager::class, fn (Post $record) => [
                                     'ownerRecord' => $record,
-                                    'pageClass' => CategoriesRelationManager::class,
+                                    'pageClass' => EditPost::class,
                                 ])
-                                    ->visibleOn([Operation::Edit, Operation::View]),
+                                    ->key('categories')
+                                    ->visibleOn([Operation::Edit]),
                             ]),
                         Tabs\Tab::make('Comments')
-                            ->visibleOn([Operation::Edit, Operation::View])
-                            ->badge(10)
+                            ->visibleOn([Operation::Edit])
+                            ->badge(fn (?Post $record) => $record?->comments()?->count() ?? 0)
                             ->icon(Heroicon::OutlinedChatBubbleLeftEllipsis)
-                            ->schema([]),
+                            ->schema([
+                                Livewire::make(CommentsRelationManager::class, fn (Post $record) => [
+                                    'ownerRecord' => $record,
+                                    'pageClass' => EditPost::class,
+                                ])
+                                    ->key('comments'),
+                            ]),
                     ]),
             ]);
     }
