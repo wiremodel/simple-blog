@@ -12,8 +12,9 @@ Follow the steps below to clone and install this project locally.
 
 ### Clone the repository
 ```bash
-git clone https://github.com/your-username/simple-blog.git
+git clone https://github.com/wiremodel/simple-blog.git
 cd simple-blog
+git checkout v4/relation-manager-form-tabs
 ```
 
 ### Install PHP dependencies
