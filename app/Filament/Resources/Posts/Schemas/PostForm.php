@@ -70,7 +70,10 @@ class PostForm
                             ]),
                         Tabs\Tab::make('Status')
                             ->icon(Heroicon::OutlinedQuestionMarkCircle)
-                            ->badge(fn (?Post $record) => $record->status->value ?? 'draft')
+                            ->badge(fn (?Post $record) => $record
+                                ->status
+                                ->value ?? 'draft'
+                            )
                             ->badgeColor(fn (?Post $record) => match ($record?->status) {
                                 default => 'gray',
                                 PostStatus::Draft => 'gray',
@@ -90,7 +93,8 @@ class PostForm
                                     ->required(),
                             ]),
                         Tabs\Tab::make('Categories')
-                            ->badge(fn (?Post $record, Get $get) => $record?->categories()?->count() ?? count($get('categories')))
+                            ->badge(fn (?Post $record, Get $get) => $record?->categories()?->count() ??
+                                count($get('categories')))
                             ->icon(Heroicon::OutlinedFolder)
                             ->schema([
                                 CheckboxList::make('categories')
@@ -106,7 +110,6 @@ class PostForm
                                     ->visibleOn([Operation::Edit]),
                             ]),
                         Tabs\Tab::make('Comments')
-                            ->visibleOn([Operation::Edit])
                             ->badge(fn (?Post $record) => $record?->comments()?->count() ?? 0)
                             ->icon(Heroicon::OutlinedChatBubbleLeftEllipsis)
                             ->schema([
@@ -115,7 +118,8 @@ class PostForm
                                     'pageClass' => EditPost::class,
                                 ])
                                     ->key('comments'),
-                            ]),
+                            ])
+                            ->visibleOn([Operation::Edit]),
                     ]),
             ]);
     }
