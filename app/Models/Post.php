@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\PostStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -21,6 +20,7 @@ class Post extends Model
     protected $fillable = [
         'title',
         'slug',
+        'excerpt',
         'content',
         'thumbnail',
         'featured_image',
@@ -44,7 +44,6 @@ class Post extends Model
             'tags' => 'array',
             'published_at' => 'datetime',
             'user_id' => 'integer',
-            'status' => PostStatus::class,
         ];
     }
 

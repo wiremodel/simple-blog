@@ -12,14 +12,17 @@ use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TagsInput;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ToggleButtons;
 use Filament\Schemas\Components\Livewire;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\JsContent;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Operation;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\HtmlString;
 
 class PostForm
 {
@@ -39,6 +42,18 @@ class PostForm
                                     ->required(),
                                 TextInput::make('slug')
                                     ->required(),
+                                Textarea::make('excerpt')
+                                    ->afterLabel(new HtmlString(<<<'HTML'
+                                        <span
+                                            x-data="{ get remaining() { return 255 - $state.length } }"
+                                            x-text="remaining"
+                                            :class="remaining >= 0 ? 'text-success-500' : 'text-danger-500'"
+                                        >
+                                        </span>
+                                    HTML))
+                                    ->rows(3)
+                                    ->maxLength(255)
+                                    ->columnSpanFull(),
                                 RichEditor::make('content')
                                     ->columnSpanFull(),
                             ]),

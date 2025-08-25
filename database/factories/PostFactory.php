@@ -2,9 +2,10 @@
 
 namespace Database\Factories;
 
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 use App\Models\Post;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PostFactory extends Factory
 {
@@ -23,6 +24,7 @@ class PostFactory extends Factory
         return [
             'title' => fake()->sentence(4),
             'slug' => fake()->slug(),
+            'excerpt' => fake()->text(),
             'content' => fake()->paragraphs(3, true),
             'thumbnail' => fake()->word(),
             'featured_image' => fake()->word(),

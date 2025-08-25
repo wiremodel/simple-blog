@@ -51,6 +51,7 @@ class PostSeeder extends Seeder
             $post = Post::create([
                 'title' => $title,
                 'slug' => Str::slug($title).'-'.$i,
+                'excerpt' => fake()->paragraph(1),
                 'content' => $content,
                 'thumbnail' => $images[array_rand($images)],
                 'featured_image' => $images[array_rand($images)],

@@ -2,6 +2,7 @@ models:
   Post:
     title: string
     slug: string
+    excerpt: text:255 nullable
     content: longtext nullable
     thumbnail: string nullable
     featured_image: string nullable
