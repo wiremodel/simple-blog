@@ -1,6 +1,6 @@
-## Relation Managers into form tabs using Livewire
+## Preserve the selected tab after a page refresh
 
-![Relation Managers into form tabs using Livewire](./screenshots/rm-into-form-tabs.png)
+![Preserve the selected tab after a page refresh](./screenshots/preserve-selected-tab.png)
 
 In Filament, [Relation Managers](https://filamentphp.com/docs/4.x/resources/managing-relationships#relation-managers---interactive-tables-underneath-your-resource-forms) are typically used to manage related models on [Resource pages](https://filamentphp.com/docs/4.x/resources/overview). But there's a lesser-known trick: you can insert these [Relation Managers](https://filamentphp.com/docs/4.x/resources/managing-relationships#relation-managers---interactive-tables-underneath-your-resource-forms) directly into [form tabs](https://filamentphp.com/docs/4.x/schemas/tabs) using [Livewire](https://livewire.laravel.com/).
 

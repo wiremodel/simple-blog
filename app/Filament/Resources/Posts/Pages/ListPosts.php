@@ -53,5 +53,4 @@ class ListPosts extends ListRecords
             CreateAction::make(),
         ];
     }
-
 }
