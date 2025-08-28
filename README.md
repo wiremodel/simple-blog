@@ -1,8 +1,10 @@
-## Preserve the selected tab after a page refresh
+## Adding extra content to a field
 
-![Preserve the selected tab after a page refresh](./screenshots/preserve-selected-tab.png)
+![Adding extra content to a field](./screenshots/adding-extra-content-to-a-field.png)
 
-In Filament, [Relation Managers](https://filamentphp.com/docs/4.x/resources/managing-relationships#relation-managers---interactive-tables-underneath-your-resource-forms) are typically used to manage related models on [Resource pages](https://filamentphp.com/docs/4.x/resources/overview). But there's a lesser-known trick: you can insert these [Relation Managers](https://filamentphp.com/docs/4.x/resources/managing-relationships#relation-managers---interactive-tables-underneath-your-resource-forms) directly into [form tabs](https://filamentphp.com/docs/4.x/schemas/tabs) using [Livewire](https://livewire.laravel.com/).
+Filament v4 provides many slots in [form fields](https://filamentphp.com/docs/4.x/forms/overview#form-fields) where you can insert additional content. These slots accept `text`, `schema components` and `actions`.
+
+In this example, we'll add a live character counter to an excerpt textarea field. The counter will update dynamically with `JavaScript` and change color based on the remaining characters.
 
 ---
 
@@ -14,7 +16,7 @@ Follow the steps below to clone and install this project locally.
 ```bash
 git clone https://github.com/wiremodel/simple-blog.git
 cd simple-blog
-git checkout v4/preserve-selected-tab
+git checkout v4/js-content
 ```
 
 ### Install PHP dependencies
