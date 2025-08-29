@@ -2,7 +2,7 @@
 
 ![Preserve the selected tab after a page refresh](./screenshots/preserve-selected-tab.png)
 
-In Filament, [Relation Managers](https://filamentphp.com/docs/4.x/resources/managing-relationships#relation-managers---interactive-tables-underneath-your-resource-forms) are typically used to manage related models on [Resource pages](https://filamentphp.com/docs/4.x/resources/overview). But there's a lesser-known trick: you can insert these [Relation Managers](https://filamentphp.com/docs/4.x/resources/managing-relationships#relation-managers---interactive-tables-underneath-your-resource-forms) directly into [form tabs](https://filamentphp.com/docs/4.x/schemas/tabs) using [Livewire](https://livewire.laravel.com/).
+Working with multiple tabs in your Filament ListPage and want to keep the selected tab active even after a refresh? Here's a clean solution using session state.
 
 ---
 
