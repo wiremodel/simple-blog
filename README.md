@@ -1,11 +1,8 @@
-## Adding extra content to a field
+## Custom table column with inline action
 
-![Adding extra content to a field](./screenshots/adding-extra-content-to-a-field.png)
+![Custom table column with inline action](./screenshots/custom-column-action.png)
 
-Filament v4 provides many slots in [form fields](https://filamentphp.com/docs/4.x/forms/overview#form-fields) where you can insert additional content. These slots accept `text`, `schema components` and `actions`.
-
-In this example, we'll add a live character counter to an excerpt textarea field. The counter will update dynamically with `JavaScript` and change color based on the remaining characters.
-
+Sometimes, you need to trigger custom actions directly from a Filament [table column](https://filamentphp.com/docs/4.x/tables/columns/overview). Filament supports this natively, and you can use [Action modals](https://filamentphp.com/docs/4.x/tables/columns/overview#action-modals) to display a form inside a modal, for example.
 ---
 
 ## Getting Started
@@ -16,7 +13,7 @@ Follow the steps below to clone and install this project locally.
 ```bash
 git clone https://github.com/wiremodel/simple-blog.git
 cd simple-blog
-git checkout v4/js-content
+git checkout v4/table-column-inline-action
 ```
 
 ### Install PHP dependencies

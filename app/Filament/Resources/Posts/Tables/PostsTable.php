@@ -29,32 +29,32 @@ class PostsTable
                     ->disk('public')
                     ->imageSize('40px')
                     ->placeholder('#'),
-                ViewColumn::make('title')
-                    ->view('components.tables.columns.post-title')
-                    ->action(
-                        Action::make('quickEdit')
-                            ->modalWidth(Width::Small)
-                            ->modalSubmitActionLabel('Save Changes')
-                            ->fillForm(fn (Post $record) => [
-                                'title' => $record->title,
-                            ])
-                            ->schema([
-                                TextInput::make('title')
-                                    ->autocomplete(false)
-                                    ->required(),
-                            ])
-                            ->action(function (Post $record, array $data) {
-                                $record->update([
-                                    'title' => $data['title'],
-                                ]);
+ViewColumn::make('title')
+    ->view('components.tables.columns.post-title')
+    ->action(
+        Action::make('quickEdit')
+            ->modalWidth(Width::Small)
+            ->modalSubmitActionLabel('Save Changes')
+            ->fillForm(fn (Post $record) => [
+                'title' => $record->title,
+            ])
+            ->schema([
+                TextInput::make('title')
+                    ->autocomplete(false)
+                    ->required(),
+            ])
+            ->action(function (Post $record, array $data) {
+                $record->update([
+                    'title' => $data['title'],
+                ]);
 
-                                Notification::make()
-                                    ->title('Post title updated successfully')
-                                    ->success()
-                                    ->send();
-                            })
-                    )
-                    ->searchable(),
+                Notification::make()
+                    ->title('Post title updated successfully')
+                    ->success()
+                    ->send();
+            })
+    )
+    ->searchable(),
                 TextColumn::make('user.name')
                     ->label('Author')
                     ->sortable(),
