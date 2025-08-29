@@ -1,8 +1,9 @@
-## Preserve the selected tab after a page refresh
+## Add a confirmation modal before creating a record
 
-![Preserve the selected tab after a page refresh](./screenshots/preserve-selected-tab.png)
+![Add a confirmation modal before creating a record](./screenshots/confirmation-modal-before-creating-a-record.png)
 
-Working with multiple tabs in your Filament ListPage and want to keep the selected tab active even after a refresh? Here's a clean solution using session state.
+Sometimes you want to double-check with users before they create a new record, especially when the action has real consequences.
+Adding a [confirmation modal](https://filamentphp.com/docs/4.x/actions/modals#confirmation-modals) to the Create form can help prevent mistakes and ensure intent.
 
 ---
 
@@ -14,7 +15,7 @@ Follow the steps below to clone and install this project locally.
 ```bash
 git clone https://github.com/wiremodel/simple-blog.git
 cd simple-blog
-git checkout v4/preserve-selected-tab
+git checkout v4/confirmation-modal-before-creating
 ```
 
 ### Install PHP dependencies
