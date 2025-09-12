@@ -1,10 +1,11 @@
-## Adding extra content to a field
+## Refreshing Relation Manager tab badges after updating records in Filament
 
-![Adding extra content to a field](./screenshots/adding-extra-content-to-a-field.png)
+![Refreshing Relation Manager tab badges after updating records in Filament](./screenshots/refreshing-badges-after-updating-a-relation-manager.png)
 
-Filament v4 provides many slots in [form fields](https://filamentphp.com/docs/4.x/forms/overview#form-fields) where you can insert additional content. These slots accept `text`, `schema components` and `actions`.
+Filament makes it easy to organize [Relation Managers](https://filamentphp.com/docs/4.x/resources/managing-relationships#relation-managers---interactive-tables-underneath-your-resource-forms) into tabs, complete with badges showing the record count.
+But there's a catch: if you update records inside a [Relation Manager](https://filamentphp.com/docs/4.x/resources/managing-relationships#relation-managers---interactive-tables-underneath-your-resource-forms), those badges won't refresh automatically.
 
-In this example, we'll add a live character counter to an excerpt textarea field. The counter will update dynamically with `JavaScript` and change color based on the remaining characters.
+This article shows you how to fix that using [Livewire events](https://livewire.laravel.com/docs/events).
 
 ---
 
@@ -16,7 +17,7 @@ Follow the steps below to clone and install this project locally.
 ```bash
 git clone https://github.com/wiremodel/simple-blog.git
 cd simple-blog
-git checkout v4/js-content
+git checkout v4/refresh-badges
 ```
 
 ### Install PHP dependencies

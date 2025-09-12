@@ -3,11 +3,7 @@
 namespace App\Filament\Resources\Posts\Schemas;
 
 use App\Enums\PostStatus;
-use App\Filament\Resources\Posts\Pages\EditPost;
-use App\Filament\Resources\Posts\RelationManagers\CategoriesRelationManager;
-use App\Filament\Resources\Posts\RelationManagers\CommentsRelationManager;
 use App\Models\Post;
-use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
@@ -15,12 +11,8 @@ use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ToggleButtons;
-use Filament\Schemas\Components\Livewire;
 use Filament\Schemas\Components\Tabs;
-use Filament\Schemas\Components\Utilities\Get;
-use Filament\Schemas\JsContent;
 use Filament\Schemas\Schema;
-use Filament\Support\Enums\Operation;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\HtmlString;
 
@@ -107,34 +99,6 @@ class PostForm
                                     ->default(now())
                                     ->required(),
                             ]),
-                        Tabs\Tab::make('Categories')
-                            ->badge(fn (?Post $record, Get $get) => $record?->categories()?->count() ??
-                                count($get('categories')))
-                            ->icon(Heroicon::OutlinedFolder)
-                            ->schema([
-                                CheckboxList::make('categories')
-                                    ->live()
-                                    ->columns(2)
-                                    ->relationship('categories', 'name')
-                                    ->visibleOn(Operation::Create),
-                                Livewire::make(CategoriesRelationManager::class, fn (Post $record) => [
-                                    'ownerRecord' => $record,
-                                    'pageClass' => EditPost::class,
-                                ])
-                                    ->key('categories')
-                                    ->visibleOn([Operation::Edit]),
-                            ]),
-                        Tabs\Tab::make('Comments')
-                            ->badge(fn (?Post $record) => $record?->comments()?->count() ?? 0)
-                            ->icon(Heroicon::OutlinedChatBubbleLeftEllipsis)
-                            ->schema([
-                                Livewire::make(CommentsRelationManager::class, fn (Post $record) => [
-                                    'ownerRecord' => $record,
-                                    'pageClass' => EditPost::class,
-                                ])
-                                    ->key('comments'),
-                            ])
-                            ->visibleOn([Operation::Edit]),
                     ]),
             ]);
     }

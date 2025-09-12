@@ -13,6 +13,7 @@ use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 class CommentsRelationManager extends RelationManager
 {
@@ -70,12 +71,18 @@ class CommentsRelationManager extends RelationManager
             ])
             ->recordActions([
                 ViewAction::make(),
-                DeleteAction::make(),
+                DeleteAction::make()
+                    ->after(fn () => $this->dispatch('refresh-page')),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    public static function getBadge(Model $ownerRecord, string $pageClass): ?string
+    {
+        return $ownerRecord->comments()->count() ?: 0;
     }
 }
