@@ -3,7 +3,6 @@
 ![Generating a slug from a title](./screenshots/generate-slug.png)
 
 Filament v4 introduces new ways to run `JavaScript` on the client side. This is especially handy when you need to update form field states instantly, without sending requests to the server.
----
 
 ## Getting Started
 
