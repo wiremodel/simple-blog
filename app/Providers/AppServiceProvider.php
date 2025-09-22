@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Filament\Support\Assets\Js;
+use Filament\Support\Facades\FilamentAsset;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +21,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        FilamentAsset::register([
+            Js::make(
+                'generate-slug',
+                'https://cdn.jsdelivr.net/npm/slug@9.0.0/slug.min.js'),
+        ]);
     }
 }
