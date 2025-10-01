@@ -1,12 +1,9 @@
-## Refreshing Relation Manager tab badges after updating records in Filament
+## Forcing Livewire to render after creating a record
 
-![Refreshing Relation Manager tab badges after updating records in Filament](./screenshots/refreshing-badges-after-updating-a-relation-manager.png)
+![Forcing Livewire to render after creating a record](./screenshots/action-force-render.png)
 
-Filament makes it easy to organize [Relation Managers](https://filamentphp.com/docs/4.x/resources/managing-relationships#relation-managers---interactive-tables-underneath-your-resource-forms) into tabs, complete with badges showing the record count.
-But there's a catch: if you update records inside a [Relation Manager](https://filamentphp.com/docs/4.x/resources/managing-relationships#relation-managers---interactive-tables-underneath-your-resource-forms), those badges won't refresh automatically.
-
-This article shows you how to fix that using [Livewire events](https://livewire.laravel.com/docs/events).
-
+Filament v4 speeds up your app by skipping unnecessary [Livewire](https://livewire.laravel.com/) renders. 
+But sometimes you do want the page to update right after an action, for example, when [creating a record](https://filamentphp.com/docs/4.x/actions/create#creating-another-record).
 ---
 
 ## Getting Started
@@ -17,7 +14,7 @@ Follow the steps below to clone and install this project locally.
 ```bash
 git clone https://github.com/wiremodel/simple-blog.git
 cd simple-blog
-git checkout v4/refresh-badges
+git checkout v4/action-force-render
 ```
 
 ### Install PHP dependencies
