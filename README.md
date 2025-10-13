@@ -1,12 +1,9 @@
-## Adding extra content to a field
+## How to keep only one active session in Filament
 
-![Adding extra content to a field](./screenshots/adding-extra-content-to-a-field.png)
+![How to keep only one active session in Filament](./screenshots/logout-other-devices.png)
 
-Filament v4 provides many slots in [form fields](https://filamentphp.com/docs/4.x/forms/overview#form-fields) where you can insert additional content. These slots accept `text`, `schema components` and `actions`.
-
-In this example, we'll add a live character counter to an excerpt textarea field. The counter will update dynamically with `JavaScript` and change color based on the remaining characters.
-
----
+Sometimes you need to make sure a user can only stay logged in on one device at a time.
+If your Laravel app uses [database sessions](https://laravel.com/docs/12.x/session#driver-prerequisites), here's a quick way to log out other devices whenever a user signs in.
 
 ## Getting Started
 
