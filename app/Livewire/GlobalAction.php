@@ -40,21 +40,16 @@ class GlobalAction extends Component implements HasActions, HasSchemas
                     ->placeholder('******')
                     ->password(),
             ])
-            ->action(function () {
+            ->action(function (array $data) {
+
+                // Here you would typically verify the password.
+                // For demonstration purposes, we'll assume it's always correct.
+
                 Notification::make()
                     ->title('Password confirmed!')
                     ->success()
                     ->send();
             });
-    }
-
-    public function render(): string
-    {
-        return <<<'HTML'
-            <div wire:init="triggerAction">
-                <x-filament-actions::modals />
-            </div>
-        HTML;
     }
 
     public function triggerAction(): void
@@ -64,5 +59,14 @@ class GlobalAction extends Component implements HasActions, HasSchemas
         }
 
         $this->mountAction('confirmPassword');
+    }
+
+    public function render(): string
+    {
+        return <<<'HTML'
+            <div wire:init="triggerAction">
+                <x-filament-actions::modals />
+            </div>
+        HTML;
     }
 }
