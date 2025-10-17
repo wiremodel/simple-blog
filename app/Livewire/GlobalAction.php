@@ -10,7 +10,6 @@ use Filament\Notifications\Notification;
 use Filament\Schemas\Concerns\InteractsWithSchemas;
 use Filament\Schemas\Contracts\HasSchemas;
 use Filament\Support\Enums\Width;
-use Filament\Support\Icons\Heroicon;
 use Livewire\Component;
 
 class GlobalAction extends Component implements HasActions, HasSchemas
@@ -28,28 +27,25 @@ class GlobalAction extends Component implements HasActions, HasSchemas
             ->modalCancelAction(false)
             ->closeModalByEscaping(false)
             ->modalCloseButton(false)
-            ->modalSubmitAction(false)
+            ->modalSubmitAction(fn (Action $action): Action => $action
+                ->outlined()
+                ->color('gray')
+                ->label('Confirm')
+                ->extraAttributes(['class' => 'w-full'])
+            )
             ->schema([
                 TextInput::make('password')
                     ->hiddenLabel()
                     ->required()
                     ->placeholder('******')
-                    ->password()
-                    ->suffixAction(Action::make('confirmPassword')
-                        ->icon(Heroicon::LockOpen)
-                        ->action(function (Action $action, array $data) {
-
-                            // Here you would typically verify the password.
-                            // For demonstration, we assume the password is always correct.
-
-                            $action->cancelParentActions();
-
-                            Notification::make()
-                                ->title('Password confirmed!')
-                                ->success()
-                                ->send();
-                        })),
-            ]);
+                    ->password(),
+            ])
+            ->action(function () {
+                Notification::make()
+                    ->title('Password confirmed!')
+                    ->success()
+                    ->send();
+            });
     }
 
     public function render(): string
