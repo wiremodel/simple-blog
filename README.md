@@ -2,8 +2,6 @@
 
 ![Registering a global action in Filament](./screenshots/global-action.png)
 
-![Registering a global action in Filament](/images/blog/18/global-action.png)
-
 Sometimes, you need an [action](https://filamentphp.com/docs/4.x/actions/overview) in your Filament app that triggers no matter what page the user is on. Maybe you need to force an important confirmation or collect some required data before the user can continue.
 That's where a global [modal action](https://filamentphp.com/docs/4.x/actions/modals#introduction) comes in.
 
