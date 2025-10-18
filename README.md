@@ -1,12 +1,11 @@
-## Adding extra content to a field
+## Registering a global action in Filament
 
-![Adding extra content to a field](./screenshots/adding-extra-content-to-a-field.png)
+![Registering a global action in Filament](./screenshots/global-action.png)
 
-Filament v4 provides many slots in [form fields](https://filamentphp.com/docs/4.x/forms/overview#form-fields) where you can insert additional content. These slots accept `text`, `schema components` and `actions`.
+![Registering a global action in Filament](/images/blog/18/global-action.png)
 
-In this example, we'll add a live character counter to an excerpt textarea field. The counter will update dynamically with `JavaScript` and change color based on the remaining characters.
-
----
+Sometimes, you need an [action](https://filamentphp.com/docs/4.x/actions/overview) in your Filament app that triggers no matter what page the user is on. Maybe you need to force an important confirmation or collect some required data before the user can continue.
+That's where a global [modal action](https://filamentphp.com/docs/4.x/actions/modals#introduction) comes in.
 
 ## Getting Started
 
