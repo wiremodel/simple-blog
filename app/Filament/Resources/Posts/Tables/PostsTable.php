@@ -18,6 +18,7 @@ class PostsTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->currentSelectionLivewireProperty('selectedPosts')
             ->columns([
                 ImageColumn::make('thumbnail')
                     ->disk('public')

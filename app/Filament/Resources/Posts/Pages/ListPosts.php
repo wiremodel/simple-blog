@@ -14,9 +14,13 @@ class ListPosts extends ListRecords
 {
     protected static string $resource = PostResource::class;
 
+    public array $selectedPosts = [];
+
     public function mount(): void
     {
         parent::mount();
+
+        $this->selectedPosts = ['1', '2', '3'];
 
         $this->activeTab = session('postActiveTab', $this->getDefaultActiveTab());
     }
